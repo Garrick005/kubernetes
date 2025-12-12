@@ -1,0 +1,12 @@
+.cache
+.dotnet
+.kube
+.local
+.ssh
+.vscode-server
+snap
+.bash-history
+.gitconfig
+kubectl
+.profile
+.wget-hsts
