@@ -1,0 +1,94 @@
+Name:             data-exchange-65499b768d-dns5h
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             kubernetes/10.130.0.17
+Start Time:       Wed, 24 Dec 2025 07:06:31 +0000
+Labels:           app=busybox-multitool
+                  pod-template-hash=65499b768d
+Annotations:      cni.projectcalico.org/containerID: 200edb1646831a4f0508d6590897f5fa193961250edd0de10415236dd73bfd62
+                  cni.projectcalico.org/podIP: 10.1.192.120/32
+                  cni.projectcalico.org/podIPs: 10.1.192.120/32
+Status:           Running
+IP:               10.1.192.120
+IPs:
+  IP:           10.1.192.120
+Controlled By:  ReplicaSet/data-exchange-65499b768d
+Containers:
+  busybox:
+    Container ID:  containerd://2a1569368d81c927d70870eea13eb344b078b40a3551b35cbdf2cd03a2c9b20d
+    Image:         busybox:latest
+    Image ID:      docker.io/library/busybox@sha256:d80cd694d3e9467884fcb94b8ca1e20437d8a501096cdf367a5a1918a34fc2fd
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      while true; do
+        date >> /shared/output.txt
+        chmod 644 /shared/output.txt
+        sleep 5
+      done 
+      
+    State:          Running
+      Started:      Wed, 24 Dec 2025 07:06:33 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-62dvl (ro)
+  multitool:
+    Container ID:  containerd://3a66bd6b230325986ce495ddc2b675d76386bd4d660710538ad210c50935c525
+    Image:         praqma/network-multitool:latest
+    Image ID:      docker.io/praqma/network-multitool@sha256:97b15098bb72df10f7c4e177b9c0e2435ec459f16e79ab7ae2ed3f1eb0e79d19
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/sh
+      -c
+    Args:
+      tail -f /shared/output.txt
+    State:          Running
+      Started:      Wed, 24 Dec 2025 07:06:34 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-62dvl (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  shared-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  kube-api-access-62dvl:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  116s  default-scheduler  Successfully assigned default/data-exchange-65499b768d-dns5h to kubernetes
+  Normal  Pulling    115s  kubelet            Pulling image "busybox:latest"
+  Normal  Pulled     114s  kubelet            Successfully pulled image "busybox:latest" in 932ms (932ms including waiting). Image size: 2224358 bytes.
+  Normal  Created    114s  kubelet            Created container: busybox
+  Normal  Started    114s  kubelet            Started container busybox
+  Normal  Pulling    114s  kubelet            Pulling image "praqma/network-multitool:latest"
+  Normal  Pulled     113s  kubelet            Successfully pulled image "praqma/network-multitool:latest" in 1.036s (1.036s including waiting). Image size: 17451372 bytes.
+  Normal  Created    113s  kubelet            Created container: multitool
+  Normal  Started    113s  kubelet            Started container multitool
+

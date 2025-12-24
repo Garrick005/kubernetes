@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-exchange
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-multitool
+  template:
+    metadata:
+      labels:
+        app: busybox-multitool
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:latest
+        command:
+            - sh
+            - -c
+            - |
+              while true; do
+                date >> /shared/output.txt
+                chmod 644 /shared/output.txt
+                sleep 5
+              done 
+        volumeMounts:
+        - name: shared-data
+          mountPath: /shared
+      - name: multitool
+        image: praqma/network-multitool:latest
+        command: ["/bin/sh", "-c"]
+        args: ["tail -f /shared/output.txt"] 
+        volumeMounts:
+        - name: shared-data
+          mountPath: /shared
+      volumes:
+      - name: shared-data
+        emptyDir: {} 
